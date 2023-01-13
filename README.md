@@ -13,4 +13,4 @@
 
 ### Implemented support for console UI and Swing GUI
 
-### Also, the ZipReader class and the ZipReaderGUI class are covered by Unit tests using JUnit 5.
+#### Also, the ZipReader class and the ZipReaderGUI class are covered by Unit tests using JUnit 5.
