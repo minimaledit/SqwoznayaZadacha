@@ -15,4 +15,4 @@
 
 #### Contains AES encryption
 
-#### Also, the ZipReader class and the ZipReaderGUI class are covered by Unit tests using JUnit 5.
+#### Also, the ZipReader class, the ZipReaderGUI class, the AES class are covered by Unit tests using JUnit 5.
