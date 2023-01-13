@@ -13,4 +13,6 @@
 
 ### Implemented support for console UI and Swing GUI
 
+#### Contains AES encryption
+
 #### Also, the ZipReader class and the ZipReaderGUI class are covered by Unit tests using JUnit 5.
