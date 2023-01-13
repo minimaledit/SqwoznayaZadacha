@@ -9,6 +9,6 @@
 
 4.division
 
-### The program reads an algebraic expression from a text file located in a ZIP archive. Finds a solution and gives an answer.
+### The program reads an arithmetic expression from a text file located in a ZIP archive. Finds a solution and gives an answer.
 
 ### Implemented support for console UI and Swing GUI
