@@ -1,5 +1,4 @@
-# SqwoznayaZadacha
-## Arithmetic Expression Calculator
+# Arithmetic Expression Calculator
 
 ### Support 4 operations:
 1.addition
