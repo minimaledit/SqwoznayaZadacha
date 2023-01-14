@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +11,10 @@ import java.util.Scanner;
 import java.util.Stack;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class ZipReaderGUI {
     public static boolean isNumber(char c) {
@@ -44,12 +51,30 @@ public class ZipReaderGUI {
             try (ZipFile zipFile = new ZipFile(zipName)) {
                 ZipArchiveEntry entry = zipFile.getEntry(fileName);
                 try (InputStream stream = zipFile.getInputStream(entry)) {
-                    Scanner scanner = new Scanner(stream);
-                    while (scanner.hasNextLine()) {
-                        inputText.add(scanner.nextLine());
+                    if (fileName.endsWith(".json")) {
+                        JSONObject json = new JSONObject(new JSONTokener(stream));
+                        inputText.add(String.valueOf(json));
+
+                    } else if (fileName.endsWith(".xml")) {
+                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder builder = factory.newDocumentBuilder();
+                        Document doc = builder.parse(fileName);
+                        doc.getDocumentElement().normalize();
+                        String expression = doc.getElementsByTagName("expression").item(0).getTextContent();
+                        inputText.add(expression);
+
+                    } else {
+                        Scanner scanner = new Scanner(stream);
+                        while (scanner.hasNextLine()) {
+                            inputText.add(scanner.nextLine());
+                        }
                     }
                 }
-            } catch (IOException ex) {
+            } catch (IOException ex ) {
+                ex.printStackTrace();
+            } catch (ParserConfigurationException ex ) {
+                ex.printStackTrace();
+            } catch (SAXException ex ) {
                 ex.printStackTrace();
             }
 

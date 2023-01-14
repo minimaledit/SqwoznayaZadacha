@@ -1,6 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -9,6 +12,8 @@ import java.util.Stack;
 import java.io.InputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.xml.sax.SAXException;
+
 public class ZipReader {
     public static boolean isNumber(char c)
     {
@@ -23,7 +28,7 @@ public class ZipReader {
             return true;
         else return false;
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         Scanner sin = new Scanner(System.in);
         System.out.print("Enter the name of the zip file: ");
         String zipName = sin.nextLine();
@@ -36,9 +41,23 @@ public class ZipReader {
         try (ZipFile zipFile = new ZipFile(zipName)) {
             ZipArchiveEntry entry = zipFile.getEntry(fileName);
             try (InputStream stream = zipFile.getInputStream(entry)) {
-                Scanner scanner = new Scanner(stream);
-                while (scanner.hasNextLine()) {
-                    inputText.add(scanner.nextLine());
+                if (fileName.endsWith(".json")) {
+                    JSONObject json = new JSONObject(new JSONTokener(stream));
+                    inputText.add(String.valueOf(json));
+
+                } else if (fileName.endsWith(".xml")) {
+                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder builder = factory.newDocumentBuilder();
+                    Document doc = builder.parse(fileName);
+                    doc.getDocumentElement().normalize();
+                    String expression = doc.getElementsByTagName("expression").item(0).getTextContent();
+                    inputText.add(expression);
+
+                } else {
+                    Scanner scanner = new Scanner(stream);
+                    while (scanner.hasNextLine()) {
+                        inputText.add(scanner.nextLine());
+                    }
                 }
             }
         }
