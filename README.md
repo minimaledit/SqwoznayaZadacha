@@ -1,6 +1,6 @@
 # Arithmetic Expression Calculator
 
-### Support 4 operations:
+### Support 5 operations():
 1.addition
 
 2.subtraction
@@ -8,6 +8,8 @@
 3.multiplication
 
 4.division
+
+5. exponentiation
 
 ### The program reads an arithmetic expression from a text file, xml file or json file located in a ZIP archive. Finds a solution and gives an answer.
 
